@@ -63,6 +63,7 @@ create_calendar(database=database)
 name = "_".join(dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().apply('user').split("@")[0].split(".")[0:2])
 deltaTablesDirectory = '/Users/'+name+'/elpriser/'
 dbutils.fs.mkdirs(deltaTablesDirectory)
+elpriserRawDataDirectory = 'databricks_academy/raw/elpriser/'
 
 schema = 'bronze'
 table = 'elpriser_bronze'
