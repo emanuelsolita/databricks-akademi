@@ -51,6 +51,7 @@ target_table = 'calendar'
         .withColumn("date_start", to_date(col("date")))
       .writeStream
         .option("checkpointLocation", f"{deltaTablesDirectory}/checkpoint/calendar")
+        .option("skipChangeCommits", "true")
         .trigger(once=True)
         .table(f"{database}.{target_schema}.{target_table}").awaitTermination())
 
@@ -81,4 +82,8 @@ target_table = 'elpriser'
 
 # COMMAND ----------
 
-spark.read.table(f"{database}.{schema}.{table_name}").show()
+spark.read.table(f"{database}.{target_schema}.{target_table}").show()
+
+# COMMAND ----------
+
+
