@@ -6,37 +6,18 @@
 
 -- MAGIC %md
 -- MAGIC Skapa en vy som är redo att konsumeras av verksamheten
+-- MAGIC
+-- MAGIC Joina elpris data från silver med kalendern från silver in den slutgiltiga vyn i guld
 
 -- COMMAND ----------
 
-CREATE OR REPLACE view emanuel_db.gold.view_elpriser_sql AS
+CREATE OR REPLACE view <view_name> AS
   SELECT
-      el.date_start,
-      SEK_per_kWh,
-      EUR_per_kWh,
-      exchange_rate,
-      elzon,
-      time_start,
-      time_end,
-      Date,
-      Day_Name,
-      Day,
-      Week,
-      Month_Name,
-      Month,
-      Quarter,
-      Year,
-      Year_half,
-      FY,
-      EndOfMonth
-FROM emanuel_db.silver.elpriser_sql el
-left JOIN 
-(select *, to_date(date) as date_start_cal from emanuel_db.silver.calendar_sql) cal
-on el.date_start = cal.date_start_cal
+    ...
 
 -- COMMAND ----------
 
-select * from emanuel_db.gold.view_elpriser_sql
+select * from <view_name>
 
 -- COMMAND ----------
 

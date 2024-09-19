@@ -12,70 +12,59 @@
 -- COMMAND ----------
 
 -- MAGIC %python
--- MAGIC spark.read.table("emanuel_db.silver.calendar").printSchema()
+-- MAGIC spark.read...
 
 -- COMMAND ----------
 
-create table if not exists emanuel_db.silver.calendar_sql
+create table if not exists <table_name>
 (
-  Date timestamp,
-  Day_Name string, 
-  Day long,
-  Week long,
-  Month_Name string,
-  Month long,
-  Quarter long,
-  Year long,
-  Year_half long,
-  FY long,
-  EndOfMonth timestamp,
-  date_start date
+  ...
 )
 
 -- COMMAND ----------
 
-create table if not exists emanuel_db.silver.elpriser_sql
+-- MAGIC %md
+-- MAGIC skapa date_start om omvandla till date
+
+-- COMMAND ----------
+
+create table if not exists <table_name>
 (
-  EUR_per_kWh   double,
-  exchange_rate   double,
-  SEK_per_kWh   double,
-  elzon   string,           
-  time_end  timestamp,
-  time_start  timestamp,
-  date_start  timestamp
+  ...
 )
 
 -- COMMAND ----------
 
-insert into emanuel_db.silver.calendar_sql
+-- MAGIC %md
+-- MAGIC Skapa date_start om omvandla till date.
+-- MAGIC
+-- MAGIC Tänk på att sätta upp en checker 
+
+-- COMMAND ----------
+
+insert into <table_name>
 select 
-  Date,
-  Day_Name, 
-  Day,
-  Week,
-  Month_Name,
-  Month,
-  Quarter,
-  Year,
-  Year_half,
-  FY,
-  EndOfMonth, 
-  to_date(date) as date_start
-from emanuel_db.bronze.calendar_bronze src
+  ...
+from <table_name> src
 --no duplicate handler
 where not exists 
   (
-    select 1 from emanuel_db.silver.calendar_sql trg
+    select 1 from <table_name> trg
     where trg.date = src.date
   )
 
 -- COMMAND ----------
 
-select count(*) from emanuel_db.silver.calendar_sql
+-- MAGIC %md
+-- MAGIC Kolla status på den nya tabellen
 
 -- COMMAND ----------
 
-insert into emanuel_db.silver.elpriser_sql
+select count(*) from <table_name>
+
+-- COMMAND ----------
+
+insert into <table_name>
 select
   EUR_per_kWh,
   EXR as exchange_rate,
@@ -84,12 +73,11 @@ select
   to_timestamp(time_end) as time_end,
   to_timestamp(time_start) as time_start,
   to_date(time_start) as date_start
-from emanuel_db.bronze.elprizer_bronze_sql src
+from <table_name> src
 where not exists
   (
-    select 1 from emanuel_db.silver.elpriser_sql trg
-    where trg.time_start = src.time_start
-    and trg.elzon = src.elzon
+    select 1 from <table_name> trg
+    where ...
   )
 
 

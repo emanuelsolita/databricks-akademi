@@ -20,12 +20,7 @@
 
 create table if not exists emanuel_db.bronze.elprizer_bronze_sql
 (
-  EUR_per_kWh double, 
-  EXR double,
-  SEK_per_kWh double,
-  elzon string,
-  time_end string,
-  time_start string
+  ...
 )
 
 -- COMMAND ----------
@@ -33,17 +28,16 @@ create table if not exists emanuel_db.bronze.elprizer_bronze_sql
 -- MAGIC %md
 -- MAGIC Use ```COPY INTO``` för data ingestion till den nyskapade tabellen
 -- MAGIC
+-- MAGIC - Path ```'/databricks_academy/raw/elpriser/'```
 -- MAGIC - Filformat ```json```
 -- MAGIC - Format Option ```('mergeSchema' = 'true')```
 -- MAGIC - Copy Option ```('mergeSchema' = 'true')```
 
 -- COMMAND ----------
 
-copy into emanuel_db.bronze.elprizer_bronze_sql
-from '/databricks_academy/raw/elpriser/'
-FILEFORMAT = json
-FORMAT_OPTIONS ('mergeSchema' = 'true')
-COPY_OPTIONS ('mergeSchema' = 'true');
+copy into 
+...
+;
 
 -- COMMAND ----------
 
@@ -52,15 +46,11 @@ COPY_OPTIONS ('mergeSchema' = 'true');
 
 -- COMMAND ----------
 
-select * from emanuel_db.bronze.elprizer_bronze_sql limit 10
+select * from ...
 
 -- COMMAND ----------
 
-select count(*) from emanuel_db.bronze.elprizer_bronze_sql
-
--- COMMAND ----------
-
-select count(*) from emanuel_db.bronze.elpriser_bronze
+select count(*) ...
 
 -- COMMAND ----------
 
