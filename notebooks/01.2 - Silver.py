@@ -81,4 +81,8 @@ target_table = 'elpriser'
 
 # COMMAND ----------
 
-spark.read.table(f"{database}.{schema}.{table_name}").show()
+spark.read.table(f"{database}.{target_schema}.{target_table}").show()
+
+# COMMAND ----------
+
+

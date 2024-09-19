@@ -68,7 +68,7 @@ spark_cal = _sqldf
 
 # COMMAND ----------
 
-spark.sql("create schema if not exists {database}.gold")
+spark.sql(f"create schema if not exists {database}.gold")
 
 # COMMAND ----------
 
@@ -89,7 +89,7 @@ spark.sql(
   f"""
     CREATE OR REPLACE view {database}.{target_schema}.{target_view} AS
         SELECT
-            date_start,
+            el.date_start,
             SEK_per_kWh,
             EUR_per_kWh,
             exchange_rate,
@@ -109,7 +109,7 @@ spark.sql(
             EndOfMonth
         FROM {database}.{source_schema}.{source_table} el
         left JOIN 
-        (select *, to_date(date) as date_start_cal from emanuel_db.staging.calendar) cal
+        (select *, to_date(date) as date_start_cal from emanuel_db.{source_schema}.calendar) cal
         on el.date_start = cal.date_start_cal
   """
 )
