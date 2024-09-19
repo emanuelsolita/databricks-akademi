@@ -7,6 +7,7 @@
 import pandas as pd
 from pyspark.sql import functions as F
 from pyspark.sql.functions import sha1, col, initcap, to_timestamp, to_date
+import random
 
 # COMMAND ----------
 
@@ -39,6 +40,7 @@ spark.sql(f"create schema if not exists {database}.silver")
 
 name = "_".join(dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().apply('user').split("@")[0].split(".")[0:2])
 deltaTablesDirectory = '/Users/'+name+'/elpriser/'
+rnd = random.randint(0, 1000000)
 
 source_schema = 'bronze'
 source_table = 'calendar_bronze'
@@ -50,7 +52,7 @@ target_table = 'calendar'
         .table(f'{database}.{source_schema}.{source_table}')
         .withColumn("date_start", to_date(col("date")))
       .writeStream
-        .option("checkpointLocation", f"{deltaTablesDirectory}/checkpoint/calendar")
+        .option("checkpointLocation", f"{deltaTablesDirectory}/checkpoint/calendar{rnd}")
         .option("skipChangeCommits", "true")
         .trigger(once=True)
         .table(f"{database}.{target_schema}.{target_table}").awaitTermination())
