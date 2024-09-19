@@ -51,8 +51,9 @@ target_table = 'calendar'
         .withColumn("date_start", to_date(col("date")))
       .writeStream
         .option("checkpointLocation", f"{deltaTablesDirectory}/checkpoint/calendar")
+        .option("skipChangeCommits", "true")
         .trigger(once=True)
-        .table(f"{database}.{target_schema}.{target_table}").option("skipChangeCommits", "true").awaitTermination())
+        .table(f"{database}.{target_schema}.{target_table}").awaitTermination())
 
 # COMMAND ----------
 
